@@ -5,6 +5,7 @@ Created on 25 kwi 2014
 '''
 import os
 import json
+import Prepare
 
 class Joiner(object):
     '''
@@ -19,6 +20,8 @@ class Joiner(object):
         self.__plainPath = os.path.join(self.__basePath, 'plain')
         self.__compressPath = os.path.join(self.__basePath, 'compress')
         self.__joined=''
+        p = Prepare.Prepare()
+        p.preparePath()
     
     def __loadFile(self, fileName):
         '''
@@ -69,9 +72,13 @@ class Joiner(object):
         @return: Return the succesed (True) or not (False) of the export operation
          
         '''
-        with open(os.path.join(self.__plainPath, fileName), 'w') as f:         
-            f.write(self.__joined)                    
-            return True
+        if self.__joined is not '':
+            with open(os.path.join(self.__plainPath, fileName), 'w') as f:         
+                f.write(self.__joined)                    
+                return True
+        else:
+            return False
+        
         return False
     
     def join(self):
@@ -110,7 +117,8 @@ class Joiner(object):
         
         '''
         try:
-            os.system("java.exe -jar yuicompressor-2.4.8.jar --type js -o {of} {f}".format(
+            os.system("java -jar {yui} --type js -o {of} {f}".format(
+                                                                             yui=self.__config['config']['yuiPath'],
                                                                              of=os.path.join(self.__compressPath, 'compress.' + fileName),
                                                                              f=os.path.join(self.__plainPath, fileName) 
                                                                              ) 

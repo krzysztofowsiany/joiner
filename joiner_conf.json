@@ -1,0 +1,11 @@
+{
+	"config": {
+		"yuiPath":"/usr/local/bin/yuicompressor-2.4.8.jar"
+	
+	},
+
+	"files":[
+		"tmp/test.js"
+	]
+
+}
