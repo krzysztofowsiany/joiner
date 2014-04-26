@@ -1,9 +1,5 @@
-#!/usr/bin/python
-'''
-Created on 25 kwi 2014
-@version: 0.1
-@author: gocom
-'''
+#!/usr/bin/env python 
+
 from Joiner.Joiner import Joiner
 from optparse import OptionParser
 
@@ -21,12 +17,18 @@ if __name__ == '__main__':
     else:
         config = 'joiner_conf.json'
     
+    l = Joiner()       
+    l.loadConfigFile(config)
+    l.join()      
+    
     if option.filename:        
-        l = Joiner()       
-        l.loadConfigFile(config)
-        l.join()                
         if option.compress:
-            l.compress(option.filename)
+            l.compress(fileName = option.filename)
         else:    
-            l.export(option.filename)
+            l.export(fileName = option.filename)
+    else:
+        if option.compress:
+            l.compress()
+        else:    
+            l.export()
     

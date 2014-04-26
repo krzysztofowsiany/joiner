@@ -19,7 +19,7 @@ class Joiner(object):
         self.__basePath = './js_joiner/'
         self.__plainPath = os.path.join(self.__basePath, 'plain')
         self.__compressPath = os.path.join(self.__basePath, 'compress')
-        self.__joined=''
+        self.__joined = ''
         p = Prepare.Prepare()
         p.preparePath()
     
@@ -33,7 +33,7 @@ class Joiner(object):
         @rtype: String
         @return: Return the loaded content 
         '''
-        content=''
+        content = ''
         if os.path.isfile(fileName):
             with open(fileName, 'r') as f:     
                 content = f.read()           
@@ -48,7 +48,7 @@ class Joiner(object):
         @type fileName: String
         @param fileName: The name of file witch are appened in to joined content         
         '''
-        self.__joined += self.__loadFile(fileName) +'\n'
+        self.__joined += self.__loadFile(fileName) + '\n'
         
     
     
@@ -61,7 +61,7 @@ class Joiner(object):
         '''
         return self.__joined
     
-    def export(self, fileName):
+    def export(self, **kwargs):
         '''
         Public method whitch export the joined content to specific file
         
@@ -72,8 +72,13 @@ class Joiner(object):
         @return: Return the succesed (True) or not (False) of the export operation
          
         '''
+        if 'fileName' in kwargs:          
+            fName = kwargs['fileName']
+        else:
+            fName = self.__config['config']['output']
+        
         if self.__joined is not '':
-            with open(os.path.join(self.__plainPath, fileName), 'w') as f:         
+            with open(os.path.join(self.__plainPath, fName), 'w') as f:         
                 f.write(self.__joined)                    
                 return True
         else:
@@ -127,18 +132,22 @@ class Joiner(object):
         except:
             return False
     
-    def compress(self, fileName):
+    def compress(self, **kwargs):
         '''
         Public method, doing the plain export and after that, compress the exported file 
-        @type fileName:String
-        @param fileName:File name of the exported file
+        @type kwards:Dictionary params
+        @param kwards:File name of the exported file
         
         @rtype: Boolean
         @return: Return the success (True) or not (False) of this operation
         '''
-         
-        if self.export(fileName):
-            return self.__runCompress(fileName)
+        if 'fileName' in kwargs:          
+            fName = kwargs['fileName']
+        else:
+            fName = self.__config['config']['output']
+            
+        if self.export( fileName = fName):
+            return self.__runCompress(fName)
         else:
             return False
         

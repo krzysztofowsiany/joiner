@@ -1,6 +1,7 @@
 {
 	"config": {
-		"yuiPath":"/usr/local/bin/yuicompressor-2.4.8.jar"
+		"yuiPath":"/usr/local/bin/yuicompressor-2.4.8.jar",
+		"output": "test.js"
 	
 	},
 
